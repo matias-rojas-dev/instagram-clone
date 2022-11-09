@@ -1,9 +1,8 @@
-import React from "react";
-import { ListOfCategories } from "./components/ListOfCategories";
-import { ListOfPhotoCards } from "./components/ListOfPhotoCards";
-import { PhotoCard } from "./components/PhotoCard";
-import { GlobalStyle } from "./GlobalStyles";
-import { Logo } from "./Logo";
+import React from 'react'
+import { ListOfCategories } from './components/ListOfCategories'
+import { ListOfPhotoCards } from './components/ListOfPhotoCards'
+import { Logo } from './Logo'
+import { GlobalStyle } from './styles/GlobalStyles'
 
 export const App = () => (
   <div>
@@ -12,4 +11,4 @@ export const App = () => (
     <ListOfCategories />
     <ListOfPhotoCards />
   </div>
-);
+)
