@@ -6,10 +6,15 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'helvetica';
   }
 
+  /*::-webkit-scrollbar {
+  /*  display: none;
+  */
+
   *,*:before, *:after {
     box-sizing: inherit;
     padding: 0px;
     margin: 0px
+    
   }
 
   ul, li, h1, h2, h3, p, button {

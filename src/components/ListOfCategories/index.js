@@ -1,44 +1,61 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { Category } from '../Category';
-import { Item, List } from './styles';
+import React, { Fragment, useEffect, useState } from "react";
+import { Category } from "../Category";
+import { Item, List } from "./styles";
 
-export const ListOfCategories = () => {
-  const [categories, setCategories] = useState([])
-  const [showFixed, setShowFixed] = useState(false)
+function useCategoriesData() {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch('https://instagram-clone-plum-ten.vercel.app/categories')
+    setLoading(true);
+    fetch("https://instagram-clone-plum-ten.vercel.app/categories")
       .then((res) => res.json())
       .then((response) => {
+        setLoading(false);
         setCategories(response);
       });
   }, []);
 
-  useEffect(function () {
-    const onScroll = event => {
-      const newShowFixed = window.scrollY > 200
-      showFixed !== newShowFixed && setShowFixed(newShowFixed)
-    }
+  return { categories, loading };
+}
 
-    document.addEventListener('scroll', onScroll)
+export const ListOfCategories = () => {
+  const { categories, loading } = useCategoriesData();
+  const [showFixed, setShowFixed] = useState(false);
 
+  useEffect(
+    function () {
+      const onScroll = (event) => {
+        const newShowFixed = window.scrollY > 200;
+        showFixed !== newShowFixed && setShowFixed(newShowFixed);
+      };
 
-    return () => document.removeEventListener('scroll', onScroll)
-  }, [showFixed])
+      document.addEventListener("scroll", onScroll);
+
+      return () => document.removeEventListener("scroll", onScroll);
+    },
+    [showFixed]
+  );
 
   const renderList = (fixed) => (
-    <List className={fixed ? 'fixed' : ''}>
-      {categories.map((category) => (
-        <Item key={category.id}>
-          <Category {...category} />
+    <List fixed={fixed}>
+      {loading ? (
+        <Item key="loading">
+          <Category />
         </Item>
-      ))}
+      ) : (
+        categories.map((category) => (
+          <Item key={category.id}>
+            <Category {...category} />
+          </Item>
+        ))
+      )}
     </List>
   );
 
   return (
     <Fragment>
-      {renderList()} 
+      {renderList()}
       {showFixed && renderList(true)}
     </Fragment>
   );
