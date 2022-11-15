@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { ImgWrapper, Img, Button, Article } from "./styles";
-import { MdFavoriteBorder } from "react-icons/md";
+import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 
 const DEFAULT_IMAGE =
   "https://res.cloudinary.com/midudev/image/upload/w_150/v1555671700/category_hamsters.jpg";
@@ -8,7 +8,8 @@ const DEFAULT_IMAGE =
 export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
   const refElement = useRef(null);
   const [show, setShow] = useState(false);
-
+  const [liked, setLiked] = useState(false);
+  console.log(liked);
   // lazy load in the component
   useEffect(
     function () {
@@ -24,12 +25,13 @@ export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
             observer.disconnect();
           }
         });
-
         observer.observe(refElement.current);
       });
     },
     [refElement]
   );
+
+  const Icon = liked ? MdFavorite : MdFavoriteBorder
 
   return (
     <Article ref={refElement}>
@@ -41,9 +43,8 @@ export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
             </ImgWrapper>
           </a>
 
-          <Button>
-            <MdFavoriteBorder size="32px" />
-            {likes} likes!
+          <Button onClick={() => setLiked(!liked)}>
+            <Icon size='32px' /> {likes} likes!
           </Button>
         </Fragment>
       )}
